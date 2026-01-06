@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignIn from './Pages/auth/Login';
+import SignUp from './Pages/auth/SignUp';
+import ActiveTasks from './Pages/ActiveTasks';
+import CompletedTasks from './Pages/CompletedTask'
+import Dashboard from './Pages/Dashboard';
+import SideBarLayout from './Pages/SideBar';
+import Task from './components/addTaskBtn';
+import Layout from "./components/Layout";
+import CreateTask from './Pages/CreateTask';
+import { Provider } from "react-redux";
+import store from './slices/store'
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+
+  
+    <Router>
+     <Routes>
+  <Route path="/" element={<SignUp />} />
+  <Route path="/login" element={<SignIn />} />
+
+  {/* Layout */}
+  <Route element={<SideBarLayout />}>
+    <Route path="dashboard" element={<Dashboard />} />
+    <Route path="activeTasks" element={<ActiveTasks />} />
+    <Route path="completedTasks" element={<CompletedTasks />} />
+    <Route path="addTask" element={<CreateTask/>}/>
+  </Route>
+</Routes>
+
+    </Router>
+      </Provider>
   );
 }
 

@@ -1,13 +1,411 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  text-align: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+header {
+  left: 8em; 
+  z-index: 1000;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-around;
+  gap: 2em;
+  font-family: 'Lexend';
+}
+
+.layout {
+  display: flex;
+  margin-top: 0; 
+  min-height: 100vh;
+}
+
+.SideBar {
+  left: 0;
+}
+.nav_item{
+padding: 14px 20px;
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+.nav_item .active{
+  background: #f2aa3c;
+  color: #000;
+}
+.logo{
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
+}
+.logo h2{
+color:#BA5112;
+padding:0.5em 2em 1.5em 2em ;
+}
+
+.btn_addTask{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #BA5112;
+  border-radius: 100%;
+  height: 2em;
+  width: 2em;
+  
+}
+.intro img{
+  position: absolute;
+  padding: 2em 0em 2em 28em;
+}
+.modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(10px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.task{
+  border-radius: 0.8em;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+}
+.task input,
+.task textarea {
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.addTask{
+  display: flex;
+  align-items: baseline;
+  gap: 2.5em;
+  padding: 0.8em;
+}
+.statusGeneral{
+  display: flex;
+  gap: 20em;
+  margin: 2em 0 0 0;
+}
+
+.task form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #251814; 
+ box-shadow: #251814 0.5em;
+ padding: 4em 4em 4em 4em;
+ margin: 4em;
+ gap:2em;
+}
+.task input {
+  background-color: #FFFFFF;
+  color: #251814;
+  height:4em ;
+  width: 48em;
+  border-radius: 0.8em;
+}
+.btn_cancel{
+  border-radius: 0.8em;
+  background-color: #ffffff;
+  border-color: #EDB046;
+  padding: 1em 2.5em 1em 2.5em;
+}
+.btn_save{
+  background-color: #EDB046;
+  border-radius: 0.8em;
+  border-color: #FFFFFF;
+  padding: 1em 2.5em 1em 2.5em;
+}
+.btns{
+  display: flex;
+  gap: 2em;
+  justify-content: flex-end;
+}
+
+.navigations h3:active{
+  background-color: #EDB046;
+}
+
+.btn_signUp{
+  color:#ffffff;
+  background-color: #BA5112;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  border-radius: 0.5em;  
+
+}
+.status{
+  display:flex ;
+  flex-direction: column;
+}
+/*ActiveTasks*/
+.task_container{
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 0.75em;
+}
+
+.active_tooltip{
+  position: relative;
+}
+
+.checkbox input {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.active_tooltip_main{
+ background-color: #FFFFFF;
+  padding: 1.4em 2em;
+  border-radius: 0.5em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5em;
+}
+/*CompletedTask*/
+.completedTask{
+  display: flex;
+  align-items: center; 
+  gap: 1.25em;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #EDB046;
+  border-radius: 0.75em;
+}
+li.completedTask .task_container{
+  margin: 1.5em 0 1.5em 0 ;
+}
+/*Tooltip*/
+.tooltipWrapper {
+  position: relative;
+}
+.tooltipBox {
+  position: absolute;
+  top: 100%;
+  right: 1em;
+  margin-top: 0.5em;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.tooltipWrapper:hover .tooltipBox {
+  opacity: 1;
+  visibility: visible;
+}
+.tooltipBox_{
+  display: flex;
+  justify-content: space-around;
+  gap: 1.2em;
+}
+.tooltipBox_main {
+  background-color: #EDB046;
+  padding: 1.4em 2em;
+  border-radius: 0.5em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 20em;
+}
+.tooltip_details{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.tooltipBox_btts{
+  display: flex;
+  justify-content: space-between;
+}
+.tooltipBox_btts button{
+  background-color: transparent;
+  border: none;
+}
+.tooltip_task_detail{
+  display: flex;
+  flex-direction: column;
+  /* gap: 4.56em; */
+}
+
+
+/*SignIn*/
+.authForm_main{
+  background-image: url('./assets/bckgrnd_sgIn.png');
+  background-size: cover;
+  padding:2em 12em 12em 12em; 
+}
+.authForm{
+  background-color: #ffffff;
+  margin:2em 6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5em;
+}
+.authForm h1{
+  color: #BA5112;
+}
+
+.authForm form{
+  display: flex;
+  flex-direction: column;
+  gap: 2.5em;
+}
+.authForm input{
+  height: 4.4em;
+  width:  clamp(25em, 80%, 12em); ;
+  border-radius: 1.3em;
+  border-color: #FFFFFF;
+  text-align: center;
+}
+.signIn_btn{
+  background-color: #EDB046;
+  color: #251814;
+  height:4.5em ;
+  width: 11.8em;
+  border-radius: 1.2em;
+
+}
+.signUp{
+  background-color: #EDB046;
+  color: #FFFFFF;
+  border-radius: 1em;
+}
+.signUp span{
+  color: #BA5112;
+}
+.signUp .signIn_btn{
+  background-color: #BA5112;
+  color: #FFFFFF;
+  height:4.5em ;
+  width: 11.8em;
+  border-radius: 1.2em;
+}
+
+/*Dashboard*/
+
+
+.intro{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: 1em; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  position: relative;
+  padding: 2em 2em 2em 2em;
+}
+.todayTasks{
+display: flex;
+gap:24em ;
+/* padding: 0em 0em 1em 2em; */
+}
+.todayTasks button {
+  background-color: transparent;
+  color: #BA5112;
+  border: none;
+}
+.todayTask_header{
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  gap: 26em;
+}
+.completedTasks{
+  border-radius: 0.8em;
+  height: 12.5em;
+  width: 11.8em;
+  background-color: #BA5112;
+  color: #FFFFFF;
+  padding: 2em;
+}
+.taskStatus{
+  display: flex;
+  flex-direction: column;
+  gap: 2.5em;
+}
+.activeTasks{
+  border-radius: 0.8em;
+  height: 12.5em;
+  width: 11.8em;
+  background-color:#EDB046;
+  color: #FFFFFF;
+  padding: 2em;
+}
+.layout{
+  display: flex;
+  flex-direction: row;
+}
+.layout_content{
+  flex: 1;
+}
+
+
+
+/*Mobile*/ /*w=360px, h=780*/
+@media  (max-width:360px) and (max-height:780px) {
+  .addTask {
+    padding: 0.25em 0.4em;
+    
+  }
+
+  .navigations {
+    width: 90%;
+    height: 2em;
+    margin: 1em auto;
+    padding: 0.4em 1em;
+    border-radius: 0.4em;
+  }
+
+  .btn_signUp {
+  gap:0;
+  }
+  .logo h1{
+    color: #BA5112;
+  }
+header{ 
+ 
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+}
+.mobile{
+  display: flex;
+  gap: 0.4em;
+}
+  .task{
+    margin: 0;
+  }
+.intro img{
+padding: 2em 0em 2em 10em;
+}
+.status{
+  display: flex;
+  flex-direction: row;
+}
+.todayTasks_header{
+  gap:5em
+}
+}
+
