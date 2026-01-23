@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const api=process.env.API;
+
 export const addTask = createAsyncThunk(
   "task/create",
   async (dto) => {
     const token = localStorage.getItem("token");
     const response = await axios.post(
-      "http://localhost:5000/task",
+      `${api}/task`,
       dto, // дані таски
       { headers: { Authorization: `Bearer ${token}` } } // хедери
     );    console.log(localStorage.getItem("token"));
@@ -22,7 +24,7 @@ export const findAllActiveTasks = createAsyncThunk(
   async () => {
     const token = localStorage.getItem("token");
     const response = await axios.get(
-      "http://localhost:5000/task/active",
+      `${api}/task/active`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;
@@ -34,7 +36,7 @@ export const updateActiveTaskById = createAsyncThunk(
   async ({ id, dto }) => {
     const token = localStorage.getItem("token");
     const response = await axios.patch(
-      `http://localhost:5000/task/active/update/${id}`,
+      `${api}/task/active/update/${id}`,
       dto,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -48,7 +50,7 @@ export const deleteActiveTaskById = createAsyncThunk(
     const token = localStorage.getItem("token");
 
     const response = await axios.delete(
-      `http://localhost:5000/task/active/delete/${taskId}/${userId}`,
+      `${api}/task/active/delete/${taskId}/${userId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -63,7 +65,7 @@ export const transferIntoCompletedTasks = createAsyncThunk(
   async({taskId,userId,token}) => {
 
     const response = await axios.post(
-      `http://localhost:5000/task/completed/${userId}/${taskId}`,
+      `${api}/task/completed/${userId}/${taskId}`,
     {},{
       headers:{
         Authorization:`Bearer${token}`
@@ -76,7 +78,7 @@ export const findAllCompletedTasks = createAsyncThunk(
   "task/findAllCompleted",
   async()=> {
     const response = await  axios.get(
-      `http://localhost:5000/task/completed/find`
+      `${api}/task/completed/find`
     );
     return response.data;
   }
@@ -86,7 +88,7 @@ export const updateCompletedTaskById = createAsyncThunk(
   "task/updateCompletedTaskById",
   async({id})=> {
     const response = await axios.patch(
-      `http://localhost:5000/task/completed/update/${id}`
+      `${api}/task/completed/update/${id}`
     );
     return response.data;
   }
@@ -96,7 +98,7 @@ export const deleteCompletedTaskById = createAsyncThunk(
   "task/deleteCompletedTask",
   async({taskId,userId})=> {
     const response = await axios.delete(
-      `http://localhost:5000/task/completed/delete/${taskId}/${userId}`
+      `${api}/task/completed/delete/${taskId}/${userId}`
     );
     return response.data;
   }
