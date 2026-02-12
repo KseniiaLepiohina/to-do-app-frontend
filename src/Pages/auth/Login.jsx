@@ -1,29 +1,32 @@
-import {Link,useNavigate} from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
-import { logIn,setUsername,setPassword } from '../../slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUsername, setPassword } from '../../slices/authSlice';
+import { useSignInMutation } from '../../services/authApi';
 
 export default function SignIn() {
-const dispatch = useDispatch();
-const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const password = useSelector((state)=>state.auth.password);
-  const username = useSelector((state)=> state.auth.username);
+  const password = useSelector((state) => state.auth.password);
+  const username = useSelector((state) => state.auth.username);
 
-  const handleSignIn = (e)=> {
-      e.preventDefault(); // <-- це зупиняє перезавантаження
-    try{
-      dispatch(logIn({username,password}))
-      .unwrap()
-      .then(()=> {
-         navigate('/dashboard');
-      })
-    } catch(error) {
-      console.log("Log In error",error);
+  const [signIn] = useSignInMutation();
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await signIn({ username, password }).unwrap();
+      if (result.token) {
+        localStorage.setItem("token", result.token);
+      }
+      navigate('/dashboard');
+    } catch (error) {
+      console.log("Log In error", error);
     }
-  }
+  };
 
-  return(
-      <section className="authForm_main">
+  return (
+    <section className="authForm_main">
       <section className="authForm">
         <section>
           <strong>
@@ -37,15 +40,15 @@ const navigate = useNavigate();
             name="Username"
             placeholder="Enter your username"
             value={username}
-            onChange={(e)=> dispatch(setUsername(e.target.value))}
+            onChange={(e) => dispatch(setUsername(e.target.value))}
           />
 
           <input
             type="password"
             name="Password"
             placeholder="Enter your password"
-           value={password}
-           onChange={(e)=> dispatch(setPassword(e.target.value))}
+            value={password}
+            onChange={(e) => dispatch(setPassword(e.target.value))}
           />
 
           <section>
