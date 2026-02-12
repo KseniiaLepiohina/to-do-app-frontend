@@ -1,7 +1,7 @@
-
 import ActiveTaskMainContent from '../components/ActiveTasks/ActiveTasksMainContent';
 import ActiveTaskToolTip from '../components/ActiveTasks/ActiveTasksTooltip'
 import Header from '../components/header';
+
 export default function ActiveTasks() {
   const date = new Date();
 const currentDate = date.toLocaleString();
@@ -14,8 +14,8 @@ const currentDate = date.toLocaleString();
           <h6>{currentDate}</h6>
         </section>
         <ActiveTaskMainContent />
-{/* 
-        <ActiveTaskToolTip /> */}
+ 
+        <ActiveTaskToolTip />
       </section>
     </>
   )

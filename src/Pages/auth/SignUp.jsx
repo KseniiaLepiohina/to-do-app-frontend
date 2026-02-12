@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewUser, setPassword, setUsername } from '../../slices/authSlice';
+import { setPassword, setUsername } from '../../slices/authSlice';
+import { useSignUpMutation } from '../../services/authApi';
 
 export default function SignUp() {
   const dispatch = useDispatch();
@@ -9,17 +10,16 @@ export default function SignUp() {
   const username = useSelector((state) => state.auth.username);
   const password = useSelector((state) => state.auth.password);
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
+  const [signUp] = useSignUpMutation();
 
-    dispatch(addNewUser({ username, password }))
-      .unwrap()
-      .then(() => {
-        navigate('/dashboard');
-      })
-      .catch((error) => {
-        console.log("Sign up error", error);
-      });
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      await signUp({ username, password }).unwrap();
+      navigate('/dashboard');
+    } catch (error) {
+      console.log("Sign up error", error);
+    }
   };
 
   return (
@@ -54,7 +54,7 @@ export default function SignUp() {
             </button>
 
             <h4>
-              Already have an account? Sign in 
+              Already have an account? Sign in
               <Link to="/login">
                 <span>here.</span>
               </Link>

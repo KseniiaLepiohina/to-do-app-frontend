@@ -28,7 +28,7 @@ export default function Header({ PageName, isMobile }) {
 
   return (
     <header>
-      {/* {isMobile ? (
+      {isMobile ? (
         <section className="mobile">
           <Logo isMobile={isMobile} />
           <section className="mobile">
@@ -40,12 +40,7 @@ export default function Header({ PageName, isMobile }) {
             <SignOutBtn isMobile={isMobile} />
           </section>
         </section>
-      ) : ( */}
-         <h2>{PageName || getPageName()}</h2>
-            <SignOutBtn />
-          {/* <section className="subHeader">
-           
-          </section> */}
+) : (<section className="subHeader"> <h2>{PageName || getPageName()}</h2> <SignOutBtn /> </section>)}
     </header>
-  );
+  )
 }

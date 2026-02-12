@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Header from "../components/header";
 import CompletedTaskMainContent from "../components/CompletedTasks/CompletedTasksMainContent";
 
