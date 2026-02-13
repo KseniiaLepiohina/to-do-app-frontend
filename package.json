@@ -1,6 +1,6 @@
 {
   "name": "to-do-app",
-  "homepage": "to-do-app-frontend-zeta.vercel.app",
+  "homepage": "https://to-do-app-frontend-zeta.vercel.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

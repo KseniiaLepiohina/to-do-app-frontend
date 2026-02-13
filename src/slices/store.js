@@ -11,6 +11,6 @@ const store = configureStore({
     task:taskReducer,
     auth:authReducer
   },
-  middleware:(getDefaultMiddleware) => getDefaultMiddleware().concat(taskApi, authApi.middleware)
+  middleware:(getDefaultMiddleware) => getDefaultMiddleware().concat(taskApi.middleware, authApi.middleware)
 })
 export default store;
