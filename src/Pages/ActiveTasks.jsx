@@ -9,7 +9,7 @@ const currentDate = date.toLocaleString();
     <>
       <Header PageName={"Active Tasks"} />
       <section className="general">
-        <section className="todayTasks">
+        <section className="todayTask_header">
           <h2>Today’s Active Tasks</h2>
           <h6>{currentDate}</h6>
         </section>

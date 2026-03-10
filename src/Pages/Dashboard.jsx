@@ -12,12 +12,14 @@ export default function Dashboard() {
   const currentDate = date.toLocaleString();
 
   const completedTasks = useSelector((state) => state.task.findCompletedTasks);
+  console.log("Tasks", completedTasks);
   const activeTasks = useSelector((state) => state.task.findActiveTasks);
 
   const percentOfCompletedTasks = Math.ceil(completedTasks.length);
   const percentOfActiveTasks = Math.ceil(activeTasks.length);
+ 
 
-  const deleteAll = () => dispatch(setDeleteAllTasks());
+  const deleteAll = () => dispatch(setDeleteAllTasks);
 
   return (
     <>
@@ -35,7 +37,7 @@ export default function Dashboard() {
             loading="lazy"
           />
         </section>
-        <section style={{ display: "flex", gap: "20em", margin: "2em 0 0 0 " }}>
+        <section style={{ display: "flex", justifyContent:"space-between", margin: "2em 0 0 0 " }}>
           <section>
             <section className="todayTasks">
               <section className="todayTask_header">
