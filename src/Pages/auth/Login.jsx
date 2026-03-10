@@ -16,7 +16,7 @@ export default function SignIn() {
     e.preventDefault();
     try {
       const result = await signIn({ username, password }).unwrap();
-      if (result.token) {
+      if (result?.token) {
         localStorage.setItem("token", result.token);
       }
       navigate('/dashboard');

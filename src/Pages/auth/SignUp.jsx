@@ -15,7 +15,10 @@ export default function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await signUp({ username, password }).unwrap();
+   const authorization = await signUp({ username, password }).unwrap();
+      if(authorization?.token) {
+        localStorage.setItem("token", authorization.token);
+      }
       navigate('/dashboard');
     } catch (error) {
       console.log("Sign up error", error);

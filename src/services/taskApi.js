@@ -6,17 +6,15 @@ export const taskApi = createApi({
     baseUrl: process.env.REACT_APP_API,
     prepareHeaders: (headers, { getState }) => {
       const token = localStorage.getItem("token");
-      
-      // Якщо токен є, додаємо його в хедери
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  tagTypes: ["Task"], 
+  tagTypes: ["Task"],
   endpoints: (builder) => ({
-    
+
     // --- АКТИВНІ ЗАВДАННЯ ---
     findAllActiveTasks: builder.query({
       query: () => "/task/active",
@@ -29,7 +27,7 @@ export const taskApi = createApi({
         method: "POST",
         body: dto,
       }),
-      invalidatesTags: ["Task"], 
+      invalidatesTags: ["Task"],
     }),
 
     updateActiveTaskById: builder.mutation({
@@ -42,8 +40,8 @@ export const taskApi = createApi({
     }),
 
     deleteActiveTaskById: builder.mutation({
-      query: ({ taskId, userId }) => ({
-        url: `/task/active/delete/${taskId}/${userId}`,
+      query: ({ task_id, user_id }) => ({
+        url: `/task/active/delete/${task_id}/${user_id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Task"],
@@ -54,18 +52,18 @@ export const taskApi = createApi({
       query: () => "/task/completed/find",
       providesTags: ["Task"],
     }),
-
-    transferToCompletedTasks: builder.mutation({
-      query: ({ taskId, userId }) => ({
-        url: `/task/completed/${userId}/${taskId}`,
-        method: "POST",
-      }),
-      invalidatesTags: ["Task"],
-    }),
+addToCompletedTasks: builder.mutation({
+  query: (taskData) => ({
+    url: `task/completed/add`, // Чистий URL
+    method: "POST",
+    body: taskData, // Тут буде { task_id, title, description }
+  }),
+  invalidatesTags: ["Task"],
+}),
 
     deleteCompletedTaskById: builder.mutation({
-      query: ({ taskId, userId }) => ({
-        url: `/task/completed/delete/${taskId}/${userId}`,
+      query: ({ task_id, user_id }) => ({
+        url: `/task/completed/delete/${task_id}/${user_id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Task"],
@@ -79,6 +77,6 @@ export const {
   useCreateTaskMutation,
   useUpdateActiveTaskByIdMutation,
   useDeleteActiveTaskByIdMutation,
-  useTransferToCompletedTasksMutation,
   useDeleteCompletedTaskByIdMutation,
+  useAddToCompletedTasksMutation,
 } = taskApi;

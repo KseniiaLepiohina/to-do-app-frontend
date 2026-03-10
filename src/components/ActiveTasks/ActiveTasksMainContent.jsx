@@ -1,46 +1,46 @@
 import ActiveTaskTooltip from "../ActiveTasks/ActiveTasksTooltip";
 import TaskStatusIcon from "../TaskStatusIcon";
-import { 
-  useFindAllActiveTasksQuery, 
-  useTransferToCompletedTasksMutation 
-} from "../../services/taskApi";
+import { useFindAllActiveTasksQuery} from "../../services/taskApi";
+import {addTaskToCompleted,removeTaskFromCompleted} from '../../slices/tasksSlice';
+import { useDispatch, useSelector } from "react-redux";
 
 const ActiveTaskMainContent = () => {
-  // 1. Для Query (отримання даних) використовуємо об'єкт. Дані в "data".
-  const { data: activeTasks = [], isLoading, isError } = useFindAllActiveTasksQuery();
 
-  // 2. Для Mutation використовуємо масив. Перший елемент - функція запуску.
-  const [transferToCompleted] = useTransferToCompletedTasksMutation();
+  const dispatch = useDispatch();
+  
+  const { data: activeTasks = [], isLoading, isError } = useFindAllActiveTasksQuery();
+  
+  const completedTaskIds = useSelector((state) => state.task.findCompletedTasks);
 
   if (isLoading) return <p>Завантаження...</p>;
-  if (isError) return <p>Сталася помилка при завантаженні завдань.</p>;
+  if (isError) return <p>Сталася помилка.</p>;
 
-  return (
+console.log("Active tasks", activeTasks);
+
+const handleCheckboxChange = async (task) => {
+dispatch(addTaskToCompleted(task)); 
+}
+
+return (
     <main>
-      {activeTasks.map((task) => (
-        <ul key={task.taskId}>
-          <li className="task_container tooltipWrapper">
-            <label className="checkbox">
-              <input
-                type="checkbox"
-                style={{ height: 40, width: 40 }}
-                // Викликаємо функцію мутації напряму, без dispatch
-                onClick={() => transferToCompleted({ 
-                  taskId: task.taskId, 
-                  userId: task.userId 
-                })}
-              />
-              <span>
-                <TaskStatusIcon completed={task.completed} />
-              </span>
-            </label>
-            <h2>{task.title}</h2>
-            <ActiveTaskTooltip task={task} />
-          </li>
-        </ul>
-      ))}
+      {activeTasks
+        .filter(t => !completedTaskIds.includes(t.task_id)) 
+        .map((task) => (
+          <ul key={task.task_id}>
+            <li className="task_container">
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  onChange={() => handleCheckboxChange( task)}
+                  style={{ height: 40, width: 40 }}
+                />
+              </label>
+              <h2>{task.title}</h2>
+              <ActiveTaskTooltip task={task} />
+            </li>
+          </ul>
+        ))}
     </main>
   );
 };
-
 export default ActiveTaskMainContent;

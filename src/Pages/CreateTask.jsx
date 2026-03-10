@@ -15,7 +15,7 @@ export default function Task() {
   const handleSubmitTask = async (e) => {
     e.preventDefault();
     try {
-      await createTask().unwrap();
+      await createTask({title,description}).unwrap();
       navigate('/activeTasks');
     } catch (error) {
       console.log("Add new task error", error);
